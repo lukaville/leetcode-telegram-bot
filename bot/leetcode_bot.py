@@ -61,7 +61,7 @@ class LeetCodeBot:
         )
 
         for submission in current:
-            if submission.problem_id not in previous_accepted:
+            if submission.status == SubmissionStatus.SUCCESS and submission.problem_id not in previous_accepted:
                 await self._new_accepted_submission(chat, user_info, submission)
 
     async def _new_accepted_submission(self, chat: str, user: UserInfo, submission: Submission):
