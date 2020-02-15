@@ -9,5 +9,5 @@ docker build -t leetcodebot .
 ```
 
 ```bash
-docker run -d --name leetcodebot --env TELEGRAM_API_TOKEN=[token] leetcodebot
+docker run -d --name leetcodebot -v /data/leetcodebot:/data --env PROXY=http://[proxy] --env TELEGRAM_API_TOKEN=[token] leetcodebot
 ```

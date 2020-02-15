@@ -12,8 +12,10 @@ async def main():
     logging.basicConfig(level=logging.INFO)
 
     token = os.environ['TELEGRAM_API_TOKEN']
+    proxy = os.environ.get('PROXY')
+
     bot = LeetCodeBot(config_path=DEFAULT_CONFIG_PATH)
-    telegram_bot = LeetCodeTelegramBot(api_token=token, bot=bot)
+    telegram_bot = LeetCodeTelegramBot(api_token=token, proxy=proxy, bot=bot)
     await telegram_bot.start()
 
 

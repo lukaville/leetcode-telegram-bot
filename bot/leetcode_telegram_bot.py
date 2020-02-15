@@ -9,9 +9,10 @@ from bot.leetcode_bot import LeetCodeBot
 class LeetCodeTelegramBot:
     def __init__(self,
                  api_token: str,
+                 proxy: str,
                  bot: LeetCodeBot):
         self._bot = bot
-        self._telegram_bot = Bot(token=api_token)
+        self._telegram_bot = Bot(token=api_token, proxy=proxy)
         self._dispatcher = Dispatcher(self._telegram_bot, loop=asyncio.get_running_loop())
 
     async def start(self):
