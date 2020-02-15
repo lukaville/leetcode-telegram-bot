@@ -22,9 +22,14 @@ class Submission:
 
 
 class UserInfo:
-    def __init__(self, recent_submissions: List[Submission]):
+    def __init__(self, user_name: str, recent_submissions: List[Submission]):
+        self._user_name = user_name
         self._recent_submissions = recent_submissions
 
     @property
     def recent_submissions(self) -> List[Submission]:
         return self._recent_submissions
+
+    @property
+    def user_name(self) -> str:
+        return self._user_name

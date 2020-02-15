@@ -47,4 +47,4 @@ class LeetCodeApi:
 
             submissions.append(new_submission)
 
-        return UserInfo(recent_submissions=submissions)
+        return UserInfo(user_name=user_name, recent_submissions=submissions)
