@@ -3,7 +3,8 @@ import json
 import logging
 import os
 import traceback
-from typing import List, Dict
+from itertools import chain
+from typing import List, Dict, Set
 
 from leetcode.leetcode_api import LeetCodeApi
 from leetcode.models import UserInfo, Submission, SubmissionStatus
@@ -30,26 +31,32 @@ class LeetCodeBot:
 
     async def _loop(self):
         while True:
-            for chat, users in self._config.items():
+            user_names = set(chain(*self._config.values()))
+
+            for user_name in user_names:
+                chat_ids = set([chat for chat, users in self._config.items() if user_name in users])
+
                 try:
-                    await self._check_for_updates(chat, users)
+                    await self._check_for_updates(user_name, chat_ids)
                 except Exception:
                     traceback.print_exc()
             await asyncio.sleep(self._update_period)
 
-    async def _check_for_updates(self, chat: str, users: List[str]):
-        for user in users:
-            user_info = await self._api.get_user_info(user)
+    async def _check_for_updates(self, user_name: str, chat_ids: Set[str]):
+        user_info = await self._api.get_user_info(user_name)
 
-            if user in self._user_infos:
+        is_not_first_update = user_name in self._user_infos
+
+        if is_not_first_update:
+            for chat in chat_ids:
                 await self._send_updates(
                     chat,
-                    self._user_infos[user].recent_submissions,
+                    self._user_infos[user_name].recent_submissions,
                     user_info.recent_submissions,
                     user_info
                 )
 
-            self._user_infos[user] = user_info
+        self._user_infos[user_name] = user_info
 
     async def _send_updates(self,
                             chat: str,
