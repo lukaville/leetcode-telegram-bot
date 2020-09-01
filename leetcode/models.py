@@ -20,6 +20,9 @@ class Submission:
     def problem_id(self) -> str:
         return self._problem_id
 
+    def __repr__(self):
+        return str(self.__dict__)
+
 
 class UserInfo:
     def __init__(self, user_name: str, recent_submissions: List[Submission]):

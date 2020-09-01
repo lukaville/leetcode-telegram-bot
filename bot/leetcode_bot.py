@@ -9,7 +9,8 @@ from typing import List, Dict, Set
 from leetcode.leetcode_api import LeetCodeApi
 from leetcode.models import UserInfo, Submission, SubmissionStatus
 
-_DEFAULT_UPDATE_PERIOD_SECONDS = 15
+_DEFAULT_UPDATE_PERIOD_SECONDS = 10
+_DEFAULT_BETWEEN_REQUESTS_SECONDS = 1
 
 
 class LeetCodeBot:
@@ -40,6 +41,8 @@ class LeetCodeBot:
                     await self._check_for_updates(user_name, chat_ids)
                 except Exception:
                     traceback.print_exc()
+
+                await asyncio.sleep(_DEFAULT_BETWEEN_REQUESTS_SECONDS)
             await asyncio.sleep(self._update_period)
 
     async def _check_for_updates(self, user_name: str, chat_ids: Set[str]):
